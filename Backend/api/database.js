@@ -94,6 +94,59 @@ const searchDatabase = async (query) => {
   }
 };
 
+const getAllLinksList = async () => {
+  try {
+    // Establish Connection
+    await connectDatabase();
+
+    console.log("Searching Database...",);
+
+    // perform 1 Search operation on the Link model that returns the first entry in the database
+    const result = await Link.find({});
+
+
+
+    console.log(
+      result
+
+    );
+
+    // If the result exists then return it's longURL, else return null
+    return result ;
+
+    // End of try
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+
+const deleteURL= async (query) =>{
+  try{
+    // Establish Connection
+    connectDatabase();
+
+    console.log("Searching Database...", query);
+
+    // perform 1 Search operation on the Link model that returns the first entry in the database
+    const result = await Link.deleteOne({ shortURL: query });
+
+    console.log(
+      result
+        ? `Search result ${query} found in database!`
+        : `${query} not found! Returning NULL.`
+    );
+
+    // If the result exists then return it's longURL, else return null
+    return result ? result.longURL : null;
+
+    // End of try
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
 // Create expiration date index
 async function createIndex() {
   //Check if the Index "expireAT" already exists or not to prevent duplicate index creations
@@ -132,4 +185,4 @@ async function calculateTime(expireAfterSeconds) {
   return [currentTime, expiryTime];
 }
 
-module.exports = { connectDatabase, insertIntoDatabase, searchDatabase };
+module.exports = { connectDatabase, insertIntoDatabase, searchDatabase, getAllLinksList, deleteURL };

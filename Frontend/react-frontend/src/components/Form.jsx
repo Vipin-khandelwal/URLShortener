@@ -10,6 +10,9 @@ import {
 } from "@nextui-org/react";
 import ModalComponent from "./Modal";
 
+
+const remoteUrl= process.env.REACT_APP_REMOTE_URL
+
 export default function Form() {
   const [numberCharacters, setNumberCharacters] = useState(5); // No. of Characters of the Short text
   const [longURL, setLongURL] = useState("");
@@ -116,7 +119,7 @@ export default function Form() {
         setisLoading(true);
 
         // Perform POST to "/insert" for the API to capture it
-        const response = await fetch("http://localhost:3000/insert", {
+        const response = await fetch(remoteUrl +"/insert", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -134,7 +137,7 @@ export default function Form() {
           setOpenModel(true);
           // If response = ok then set the final url state
           setFinalURL(
-            "http://localhost:3000/l/" + formData.shortURL
+            remoteUrl+"/l/" + formData.shortURL
           );
           // Set the final url text visible for the user to copy
         }

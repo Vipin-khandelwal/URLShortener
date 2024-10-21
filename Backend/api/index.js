@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const { insertIntoDatabase, searchDatabase } = require("./database.js");
+const { insertIntoDatabase, searchDatabase, getAllLinksList, deleteURL } = require("./database.js");
 require("dotenv").config(); // Configure  Environment Variables
 
 const app = express(); //Inititilise Express app
@@ -48,6 +48,19 @@ app.get("/l/*", async (req, res) => {
   // Else redirect to 404 page
   else res.redirect("https://aryanranderiya.com/404");
 });
+
+app.get("/get-all-urls", async(req, res) => {
+  res.status(200).json(await getAllLinksList())
+})
+
+app.post("/delete-url", async(req, res) => {
+  const url= req.body["short_code"];
+
+  const result= await deleteURL(url);
+  
+
+  res.status(200).json({success: true})
+})
 
 // Insert into the database when Form is submitted using "fetch" in Frontend logic
 app.post("/insert", async (req, res) => {
