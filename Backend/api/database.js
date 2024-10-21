@@ -5,6 +5,7 @@ require("dotenv").config();
 const linksSchema = new mongoose.Schema({
   shortURL: { type: String, required: true, unique: true, index: true },
   longURL: { type: String, required: true },
+  urlLabel: { type: String, required: true },
   createdAt: { type: Date },
   expireAt: { type: Date },
 });
@@ -32,7 +33,8 @@ const connectDatabase = async () => {
 const insertIntoDatabase = async (
   shortURL,
   longURL,
-  expireAfterSeconds = null
+  expireAfterSeconds = null,
+  urlLabel
 ) => {
   // Establish Connection
   connectDatabase();
@@ -48,6 +50,7 @@ const insertIntoDatabase = async (
     let link = new Link({
       shortURL: shortURL,
       longURL: longURL,
+      urlLabel: urlLabel,
       createdAt: currentTime,
       expireAt: expiryTime,
     });

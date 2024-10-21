@@ -51,7 +51,7 @@ app.get("/l/*", async (req, res) => {
 
 // Insert into the database when Form is submitted using "fetch" in Frontend logic
 app.post("/insert", async (req, res) => {
-  const { shortURL, longURL, expireAfterSeconds } = req.body;
+  const { shortURL, longURL, expireAfterSeconds, urlLabel } = req.body;
 
   console.log("Short URL: ", shortURL);
   console.log("Long URL: ", longURL);
@@ -63,7 +63,7 @@ app.post("/insert", async (req, res) => {
   // Only Insert if the record doesn't already exists
   if (searchResult === null) {
     console.log("No Redundant Data Found...Inserting Into Database!");
-    insertIntoDatabase(shortURL, longURL, expireAfterSeconds);
+    insertIntoDatabase(shortURL, longURL, expireAfterSeconds, urlLabel);
     res.end(); // End the response stream or else it will keep reloading
   } else
     res

@@ -25,6 +25,7 @@ export default function Form() {
     shortURL: shortURL,
     longURL: longURL,
     expireAfterSeconds: expireAfterSeconds,
+    urlLabel: "",
   });
 
   // Set the Short URL based on the users input
@@ -115,7 +116,7 @@ export default function Form() {
         setisLoading(true);
 
         // Perform POST to "/insert" for the API to capture it
-        const response = await fetch("/insert", {
+        const response = await fetch("http://localhost:3000/insert", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -133,7 +134,7 @@ export default function Form() {
           setOpenModel(true);
           // If response = ok then set the final url state
           setFinalURL(
-            "https://links.aryanranderiya.com/l/" + formData.shortURL
+            "http://localhost:3000/l/" + formData.shortURL
           );
           // Set the final url text visible for the user to copy
         }
@@ -154,6 +155,27 @@ export default function Form() {
   return (
     <>
       <form className="form flex flex-col gap-4" onSubmit={onSubmit}>
+        <Tooltip
+          content="Added a label to identify short url"
+          offset={20}
+          placement="right-end"
+          showArrow
+          color="primary"
+        >
+          <Input
+            key="urlLabel"
+            type="text"
+            label="URL Label"
+            value={formData.urlLabel}
+            onChange={(e) => setFormData((d) => ({...d, urlLabel: e.target.value}))}
+            variant="faded"
+            required
+            className="w-full px-10"
+            style={{ width: "30vw" }}
+            size="md"
+            isClearable
+          />
+        </Tooltip>
         <Tooltip
           content="This is the URL you want to shorten"
           offset={20}
